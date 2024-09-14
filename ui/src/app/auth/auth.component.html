@@ -1,0 +1,41 @@
+<div class="bg">
+    <div class="container">
+        <div class="login-Forms">
+            <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" class="form">
+                <div class="flex-column">
+                    <label for="email">Email</label>
+                </div>
+                <div class="inputForm">
+                    <input [(ngModel)]="email" class="input" id="email" name="email"
+                           placeholder="Enter your Email" required email
+                           #emailModel="ngModel">
+                    <div *ngIf="emailModel.invalid && (emailModel.dirty || emailModel.touched)"
+                         class="text-danger">
+                        <div *ngIf="emailModel.errors?.['required']">Email is required.</div>
+                        <div *ngIf="emailModel.errors?.['email']">Invalid email address.</div>
+                    </div>
+                </div>
+                <div class="flex-column">
+                    <label for="password">Password</label>
+                </div>
+                <div class="inputForm">
+                    <input [(ngModel)]="password" class="input" id="password"
+                           name="password" placeholder="Enter your Password"
+                           required minlength="7" #passwordModel="ngModel">
+                    <div *ngIf="passwordModel.invalid && (passwordModel.dirty || passwordModel.touched)"
+                         class="text-danger">
+                        <div *ngIf="passwordModel.errors?.['required']">Password is required.</div>
+                        <div *ngIf="passwordModel.errors?.['minlength']">Password must be at least 7 characters long.</div>
+                    </div>
+                </div>
+                <button [disabled]="loginForm.invalid"
+                        [ngStyle]="{'cursor': loginForm.invalid ? 'not-allowed' : 'pointer'}"
+                        class="button-submit" type="submit">Login
+                </button>
+            </form>
+            <div class="flex-column">
+                <a routerLink="/signup" class="button-link">Don't have an account? Sign up</a>
+            </div>
+        </div>
+    </div>
+</div>

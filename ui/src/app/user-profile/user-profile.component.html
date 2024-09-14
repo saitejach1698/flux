@@ -1,0 +1,21 @@
+<div class="profile-container">
+    <h2>User Profile</h2>
+    <div class="profile-details">
+<!--        <div class="profile-row">-->
+<!--            <div class="profile-label">Username:</div>-->
+<!--            <div class="profile-value">{{ user.username }}</div>-->
+<!--        </div>-->
+        <div class="profile-row">
+            <div class="profile-label">Email:</div>
+            <div class="profile-value">{{ user.username }}</div>
+        </div>
+        <div class="profile-row">
+            <div class="profile-label">Role:</div>
+            <div class="profile-value">{{ user.role }}</div>
+        </div>
+    </div>
+    <div class="button-group">
+        <button (click)="logout()" class="btn btn-primary">Logout</button>
+        <button (click)="navigateToEmployeesList()" class="btn btn-secondary">Back to Employees List</button>
+    </div>
+</div>

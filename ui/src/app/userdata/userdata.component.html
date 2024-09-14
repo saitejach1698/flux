@@ -1,0 +1,66 @@
+<div class="container">
+    <div class="title-bar">
+        <h1>Employee Management</h1>
+        <span class="welcome-message">Welcome, {{ username }}!</span>
+    </div>
+
+    <input type="text" [(ngModel)]="searchTerm" (input)="onSearch()" placeholder="Search employees..." class="form-control search-bar">
+
+    <form #employeeForm="ngForm" (ngSubmit)="onSubmit(employeeForm)" class="form-container">
+        <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input [(ngModel)]="employee.firstName" id="firstName" name="firstName" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input [(ngModel)]="employee.lastName" id="lastName" name="lastName" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input [(ngModel)]="employee.name" id="name" name="name" required class="form-control" #nameModel="ngModel">
+            <div *ngIf="nameModel.invalid && (nameModel.dirty || nameModel.touched)" class="text-danger">
+                <div *ngIf="nameModel.errors?.['required']">Name is required.</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="employee_code">Employee Code</label>
+            <input [(ngModel)]="employee.employee_code" id="employee_code" name="employee_code" required class="form-control" #employeeCodeModel="ngModel">
+            <div *ngIf="employeeCodeModel.invalid && (employeeCodeModel.dirty || employeeCodeModel.touched)" class="text-danger">
+                <div *ngIf="employeeCodeModel.errors?.['required']">Employee code is required.</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="emp_dept">Department</label>
+            <select [(ngModel)]="employee.emp_dept" id="emp_dept" name="emp_dept" class="form-control">
+                <option value="SALES">Sales</option>
+                <option value="FINANCE">Finance</option>
+                <option value="OPERATIONS">Operations</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="salary">Salary</label>
+            <input [(ngModel)]="employee.salary" id="salary" name="salary" required type="number" class="form-control" #salaryModel="ngModel">
+            <div *ngIf="salaryModel.invalid && (salaryModel.dirty || salaryModel.touched)" class="text-danger">
+                <div *ngIf="salaryModel.errors?.['required']">Salary is required.</div>
+            </div>
+        </div>
+        <button [disabled]="employeeForm.invalid" type="submit" class="btn btn-primary">
+            {{ employee.id ? 'Update' : 'Add' }} Employee
+        </button>
+    </form>
+
+    <ul class="employee-list">
+        <li *ngFor="let emp of filteredEmployees" class="employee-item">
+            <div class="employee-info">
+                <a [routerLink]="['/employee', emp.id]"><strong>Name:</strong> {{ emp.name }}</a><br>
+                <strong>Employee Code:</strong> {{ emp.employee_code }} <br>
+                <strong>Department:</strong> {{ emp.emp_dept }} <br>
+                <strong>Salary:</strong> {{ emp.salary }}
+            </div>
+            <div class="employee-actions">
+                <button (click)="onEdit(emp)" class="btn btn-secondary">Edit</button>
+                <button (click)="onDelete(emp.id)" class="btn btn-danger">Delete</button>
+            </div>
+        </li>
+    </ul>
+</div>

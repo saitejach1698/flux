@@ -1,0 +1,38 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 18
+    commands:
+      - echo Installing server dependencies...
+      - cd flux-node-server && npm install
+      - echo Installing UI dependencies...
+      - cd ../ui && npm install --legacy-peer-deps
+  build:
+    commands:
+      - echo Build started on `date`
+      - npx ng build
+      - cd ../
+      - echo Build completed on `date`
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Verifying directories...
+      - pwd
+      - ls -l
+      - echo Preparing artifacts...
+      - mkdir -p /output/server /output/ui /output/scripts
+      # - chmod -R 755 /flux-node-server
+      - cp -r flux-node-server/* /output/server/
+      - cp -r scripts/ /output/server/
+      - cp -r appspec.yml /output/server/
+      - cp -r buildSpec.yml /output/server/
+      - cp -r ui/dist /output/server/
+      - echo Starting deployment...
+      - aws s3 cp /output s3://stc-ri-dev-bucket --recursive
+artifacts:
+  files:
+    - '**/*'
+  base-directory: /output
+# comment
